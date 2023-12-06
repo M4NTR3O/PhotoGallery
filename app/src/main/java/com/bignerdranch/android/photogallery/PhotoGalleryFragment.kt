@@ -15,8 +15,7 @@ class PhotoGalleryFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(
-                R.layout.fragment_photo_gallery, container, false)
+        val view = inflater.inflate(R.layout.fragment_photo_gallery, container, false)
         photoRecyclerView =
             view.findViewById(R.id.photo_recycler_view)
         photoRecyclerView.layoutManager =
@@ -24,7 +23,6 @@ class PhotoGalleryFragment: Fragment() {
         return view
     }
     companion object {
-        fun newInstance() =
-            PhotoGalleryFragment()
+        fun newInstance() = PhotoGalleryFragment()
     }
 }
