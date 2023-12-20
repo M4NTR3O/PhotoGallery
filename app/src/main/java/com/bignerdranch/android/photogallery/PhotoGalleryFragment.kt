@@ -41,6 +41,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 private const val TAG = "PhotoGalleryFragment"
@@ -50,6 +51,10 @@ class PhotoGalleryFragment: Fragment() {
     private lateinit var photoRecyclerView: RecyclerView
     private lateinit var thumbnailDownloader: ThumbnailDownloader<PhotoHolder>
 
+    interface Callbacks {
+        fun onPhotoSelected(photoId: UUID)
+    }
+    private var callbacks: Callbacks? = null
     override fun onCreate(savedInstanceState:
                           Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,16 +67,6 @@ class PhotoGalleryFragment: Fragment() {
                 photoHolder.bindDrawable(drawable)
             }
         lifecycle.addObserver(thumbnailDownloader.fragmentLifecycleObserver)
-        /*val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType
-                .UNMETERED)
-            .build()
-        val workRequest = OneTimeWorkRequest
-            .Builder(PollWorker::class.java)
-            .setConstraints(constraints)
-            .build()
-        WorkManager.getInstance()
-            .enqueue(workRequest)*/
     }
 
     override fun onCreateView(
@@ -176,9 +171,18 @@ class PhotoGalleryFragment: Fragment() {
         }
     }
 
-    private class PhotoHolder(itemImageView: ImageView) : RecyclerView.ViewHolder(itemImageView)
-    {
+    private inner class PhotoHolder(itemImageView: ImageView) : RecyclerView.ViewHolder(itemImageView), View.OnClickListener {
+        private lateinit var photo: GalleryItem
+        init {
+            itemView.setOnClickListener(this)
+        }
+        fun bind(photo: GalleryItem){
+            this.photo = photo
+        }
         val bindDrawable: (Drawable) -> Unit = itemImageView::setImageDrawable
+        override fun onClick(v: ImageView?){
+            callbacks?.onPhotoSelected(photo.id)
+        }
     }
 
     private inner class PhotoAdapter(private val galleryItems: List<GalleryItem>) : RecyclerView.Adapter<PhotoHolder>() {

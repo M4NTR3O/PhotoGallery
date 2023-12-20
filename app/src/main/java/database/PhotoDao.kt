@@ -9,12 +9,12 @@ import java.util.UUID
 
 interface PhotoDao {
     @Query("SELECT * FROM galleryitem")
-    fun getCrimes(): LiveData<List<GalleryItem>>
+    fun getPhotos(): LiveData<List<GalleryItem>>
 
     @Query("SELECT * FROM galleryitem WHERE id=(:id)")
-    fun getCrime(id: UUID): LiveData<GalleryItem?>
+    fun getPhoto(id: UUID): LiveData<GalleryItem?>
     @Update
-    fun updateCrime(galleryItem: GalleryItem)
+    fun updatePhoto(galleryItem: GalleryItem)
     @Insert
-    fun addCrime(galleryItem: GalleryItem)
+    fun addPhoto(galleryItem: GalleryItem)
 }
