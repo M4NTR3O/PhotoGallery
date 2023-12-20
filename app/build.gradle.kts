@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId = "com.bignerdranch.android.photogallery"
         minSdk = 28
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
